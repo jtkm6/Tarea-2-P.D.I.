@@ -39,7 +39,7 @@ Dentro de la carpeta [bin/] se encuentra el archivo ejecutable del proyecto, bas
 ![Screenshot de la Aplicacion](./doc/screenshot_3.png "Screenshot #3")
 - - - - 
 ### Versión
-2.0
+2.2
 
 
 - - - - 

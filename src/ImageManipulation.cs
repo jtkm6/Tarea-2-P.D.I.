@@ -16,7 +16,7 @@ namespace PDI_Tarea_2 {
 		// Image, modifications data.
 		protected int brilloEnLaImagen = 0, umbralThreshold = 127;
 		protected float anguloARotar = 0.0f, escalaAInterpolar = 1.0f, contrasteEnLaImagen = 1.0f;
-		protected bool flipVertical = false, flipHorizontal = false, invertirColores = false, ecualizarImagen = false, umbralizar = false;
+		protected bool flipVertical = false, flipHorizontal = false, invertirColores = false, ecualizarImagen = false, umbralizar = false, useBilinear = false;
 		protected int[] ColorR, ColorG, ColorB, colorDataR, colorDataG, colorDataB;
 
 		public ImageManipulation(Chart Histogram, Label fileName, Label fileSize, Label fileDimentions, Label bitsProfundidad) {
@@ -65,16 +65,59 @@ namespace PDI_Tarea_2 {
 			return OUT;
 		}
 
+		private Bitmap scalateImageFunctionBilinear(Bitmap IN, float percent) {
+			Bitmap OUT = new Bitmap((int)(IN.Width * percent), (int)(IN.Height * percent));
+			double Xratio = (double)IN.Width / (double)OUT.Width;
+			double Yratio = (double)IN.Height / (double)OUT.Height;
+
+			for(int Y = 0; Y < OUT.Height; ++Y) {
+				for(int X = 0; X < OUT.Width; ++X) {
+					double newX = Math.Floor(X * Xratio);
+					double newY = Math.Floor(Y * Yratio);
+					double ceil_x = newX + 1;
+					if(ceil_x >= IN.Width) ceil_x = (int)newX;
+					double ceil_y = newY + 1;
+					if(ceil_y >= IN.Height) ceil_y = (int)newY;
+					double fraction_x = X * Xratio - newX;
+					double fraction_y = Y * Yratio - newY;
+					double one_minus_x = 1.0 - fraction_x;
+					double one_minus_y = 1.0 - fraction_y;
+					Color A = IN.GetPixel((int)newX, (int)newY);
+					Color B = IN.GetPixel((int)ceil_x, (int)newY);
+					Color C = IN.GetPixel((int)newX, (int)ceil_y);
+					Color D = IN.GetPixel((int)ceil_x, (int)ceil_y);
+					int AA = (int)(one_minus_y * (one_minus_x * A.A + fraction_x * B.A) + fraction_y * (one_minus_x * C.A + fraction_x * D.A));
+					int RR = (int)(one_minus_y * (one_minus_x * A.R + fraction_x * B.R) + fraction_y * (one_minus_x * C.R + fraction_x * D.R));
+					int GG = (int)(one_minus_y * (one_minus_x * A.G + fraction_x * B.G) + fraction_y * (one_minus_x * C.G + fraction_x * D.G));
+					int BB = (int)(one_minus_y * (one_minus_x * A.B + fraction_x * B.B) + fraction_y * (one_minus_x * C.B + fraction_x * D.B));
+					OUT.SetPixel(X, Y, Color.FromArgb(AA, RR, GG, BB));
+				}
+			}
+			return OUT;
+		}
+
 		public void loadFile(String Patch) {
 			this.filePatch = Patch;
-
-			originalImageFile = (Bitmap)Image.FromFile(filePatch);
+			if(Path.GetExtension(Patch).ToLower() == ".bmp") {
+				PDI_Tarea_1.BMP image = new PDI_Tarea_1.BMP();
+				image.LoadImageFile(Patch);
+				if(image.ImageIsLoaded()) {
+					originalImageFile = image.GetImage();
+					bitsProfundidad.Text = image.GetFormato() + "bpp";
+				}else {
+					originalImageFile = (Bitmap)Image.FromFile(filePatch);
+					bitsProfundidad.Text = originalImageFile.PixelFormat.ToString();
+				}
+			} else {
+				originalImageFile = (Bitmap)Image.FromFile(filePatch);
+				bitsProfundidad.Text = originalImageFile.PixelFormat.ToString();
+			}
 			fileName.Text = Path.GetFileName(Patch);
 			fileSize.Text = ((int)((new FileInfo(Patch)).Length / 1000)).ToString() + " KB";
 		}
 
 		public void saveImagen(String patch = null) {
-			if(patch == null) {
+			if(patch == null || patch == filePatch) {
 				String extension = Path.GetExtension(filePatch);
 				System.Drawing.Imaging.ImageFormat Formato;
 				switch(extension.ToLower()) {
@@ -131,7 +174,11 @@ namespace PDI_Tarea_2 {
 			if(resultImageFile != null)
 				resultImageFile.Dispose();
 			Bitmap temp;
-			temp = scalateImageFunction(originalImageFile, escalaAInterpolar);
+			if(useBilinear) {
+				temp = scalateImageFunctionBilinear(originalImageFile, escalaAInterpolar);
+			} else {
+				temp = scalateImageFunction(originalImageFile, escalaAInterpolar);
+			}
 			resultImageFile = rotateImageFunction(temp, anguloARotar);
 			temp.Dispose();
 			//
@@ -214,7 +261,6 @@ namespace PDI_Tarea_2 {
 			}
 			//
 			fileDimentions.Text = resultImageFile.Width.ToString() + " X " + resultImageFile.Height.ToString() + "px";
-			bitsProfundidad.Text = resultImageFile.PixelFormat.ToString();
 			return resultImageFile;
 		}
 
@@ -257,6 +303,10 @@ namespace PDI_Tarea_2 {
 
 		public void setUmbralThreshold(int threshold) {
 			umbralThreshold = threshold;
+		}
+
+		public void setInterpolation() {
+			useBilinear = !useBilinear;
 		}
 
 		public bool imageIsOpen() {

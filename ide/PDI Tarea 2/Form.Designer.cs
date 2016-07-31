@@ -24,10 +24,10 @@
 		/// </summary>
 		private void InitializeComponent() {
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form));
-			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-			System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+			System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
+			System.Windows.Forms.DataVisualization.Charting.Series series11 = new System.Windows.Forms.DataVisualization.Charting.Series();
+			System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
 			this.imagenBox = new System.Windows.Forms.GroupBox();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.histogram = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -76,6 +76,9 @@
 			this.label5 = new System.Windows.Forms.Label();
 			this.label6 = new System.Windows.Forms.Label();
 			this.trackBarRotacion = new System.Windows.Forms.TrackBar();
+			this.interpolaciónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.nearestNeighborToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.bilinealToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.imagenBox.SuspendLayout();
 			this.panel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.histogram)).BeginInit();
@@ -115,10 +118,10 @@
 			this.histogram.BackImageWrapMode = System.Windows.Forms.DataVisualization.Charting.ChartImageWrapMode.Scaled;
 			this.histogram.BackSecondaryColor = System.Drawing.Color.Transparent;
 			this.histogram.BorderlineColor = System.Drawing.Color.Transparent;
-			chartArea1.BackColor = System.Drawing.Color.Transparent;
-			chartArea1.BackImageTransparentColor = System.Drawing.Color.Transparent;
-			chartArea1.Name = "ChartArea1";
-			this.histogram.ChartAreas.Add(chartArea1);
+			chartArea4.BackColor = System.Drawing.Color.Transparent;
+			chartArea4.BackImageTransparentColor = System.Drawing.Color.Transparent;
+			chartArea4.Name = "ChartArea1";
+			this.histogram.ChartAreas.Add(chartArea4);
 			this.histogram.Cursor = System.Windows.Forms.Cursors.Cross;
 			resources.ApplyResources(this.histogram, "histogram");
 			this.histogram.Name = "histogram";
@@ -127,21 +130,21 @@
         System.Drawing.Color.Red,
         System.Drawing.Color.Green,
         System.Drawing.Color.Blue};
-			series1.ChartArea = "ChartArea1";
-			series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-			series1.Name = "R";
-			series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
-			series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
-			series2.ChartArea = "ChartArea1";
-			series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-			series2.Name = "G";
-			series3.ChartArea = "ChartArea1";
-			series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-			series3.Name = "B";
-			series3.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
-			this.histogram.Series.Add(series1);
-			this.histogram.Series.Add(series2);
-			this.histogram.Series.Add(series3);
+			series10.ChartArea = "ChartArea1";
+			series10.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+			series10.Name = "R";
+			series10.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
+			series10.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
+			series11.ChartArea = "ChartArea1";
+			series11.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+			series11.Name = "G";
+			series12.ChartArea = "ChartArea1";
+			series12.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+			series12.Name = "B";
+			series12.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
+			this.histogram.Series.Add(series10);
+			this.histogram.Series.Add(series11);
+			this.histogram.Series.Add(series12);
 			// 
 			// pictureBox
 			// 
@@ -208,7 +211,8 @@
 			// 
 			this.primariMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.archivoToolStripMenuItem,
-            this.verToolStripMenuItem});
+            this.verToolStripMenuItem,
+            this.interpolaciónToolStripMenuItem});
 			resources.ApplyResources(this.primariMenu, "primariMenu");
 			this.primariMenu.Name = "primariMenu";
 			this.primariMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -451,6 +455,28 @@
 			this.trackBarRotacion.TickStyle = System.Windows.Forms.TickStyle.None;
 			this.trackBarRotacion.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
 			// 
+			// interpolaciónToolStripMenuItem
+			// 
+			this.interpolaciónToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.nearestNeighborToolStripMenuItem,
+            this.bilinealToolStripMenuItem});
+			this.interpolaciónToolStripMenuItem.Name = "interpolaciónToolStripMenuItem";
+			resources.ApplyResources(this.interpolaciónToolStripMenuItem, "interpolaciónToolStripMenuItem");
+			// 
+			// nearestNeighborToolStripMenuItem
+			// 
+			this.nearestNeighborToolStripMenuItem.Checked = true;
+			this.nearestNeighborToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+			resources.ApplyResources(this.nearestNeighborToolStripMenuItem, "nearestNeighborToolStripMenuItem");
+			this.nearestNeighborToolStripMenuItem.Name = "nearestNeighborToolStripMenuItem";
+			this.nearestNeighborToolStripMenuItem.Click += new System.EventHandler(this.nearestNeighborToolStripMenuItem_Click);
+			// 
+			// bilinealToolStripMenuItem
+			// 
+			this.bilinealToolStripMenuItem.Name = "bilinealToolStripMenuItem";
+			resources.ApplyResources(this.bilinealToolStripMenuItem, "bilinealToolStripMenuItem");
+			this.bilinealToolStripMenuItem.Click += new System.EventHandler(this.bilinealToolStripMenuItem_Click);
+			// 
 			// Form
 			// 
 			resources.ApplyResources(this, "$this");
@@ -544,6 +570,9 @@
 		private System.Windows.Forms.TrackBar trackBarRotacion;
 		private System.Windows.Forms.Button zoomIn;
 		private System.Windows.Forms.Button zoomOut;
+		private System.Windows.Forms.ToolStripMenuItem interpolaciónToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem nearestNeighborToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem bilinealToolStripMenuItem;
 	}
 }
 

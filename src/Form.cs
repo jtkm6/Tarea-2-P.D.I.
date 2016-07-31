@@ -144,5 +144,27 @@ namespace PDI_Tarea_2 {
 			image.setZoomProportion(true);
 			pictureBox.Image = image.getActualImage();
 		}
+
+		private void nearestNeighborToolStripMenuItem_Click(object sender, EventArgs e) {
+			nearestNeighborToolStripMenuItem.Enabled = false;
+			nearestNeighborToolStripMenuItem.Checked = true;
+			bilinealToolStripMenuItem.Checked = false;
+			bilinealToolStripMenuItem.Enabled = true;
+			image.setInterpolation();
+			if(image.imageIsOpen()) {
+				pictureBox.Image = image.getActualImage();
+			}
+		}
+
+		private void bilinealToolStripMenuItem_Click(object sender, EventArgs e) {
+			nearestNeighborToolStripMenuItem.Enabled = true;
+			nearestNeighborToolStripMenuItem.Checked = false;
+			bilinealToolStripMenuItem.Checked = true;
+			bilinealToolStripMenuItem.Enabled = false;
+			image.setInterpolation();
+			if(image.imageIsOpen()) {
+				pictureBox.Image = image.getActualImage();
+			}
+		}
 	}
 }
